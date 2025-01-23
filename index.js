@@ -1,6 +1,22 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
+const cors = require('cors')
+const mongoose = require('mongoose');
 const port = 3000
+
+
+app.use(cors())
+app.use(express.json())
+
+
+// database connection
+mongoose.connect(`mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.hoynchx.mongodb.net/foodiDB`).then(
+  console.log('success')
+).catch((error) => {
+  err => console.log(error)
+})
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
