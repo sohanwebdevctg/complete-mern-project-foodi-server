@@ -1,5 +1,18 @@
 const Card = require("../models/Card");
 
+const getCardData = async (req, res) => {
+  try{
+    const email = req.query.email;
+    const query = {email : email};
+    const findData = await Card.find(query).exec();
+    if(findData){
+      res.status(200).send(findData)
+    }
+  }catch(error){
+    res.status(404).json({message: error.message})
+  }
+}
+
 const postCardData = async (req, res) => {
   try{
     const {menuId, name, recipe, image, category, price, email, quantity} = req.body;
@@ -17,4 +30,4 @@ const postCardData = async (req, res) => {
 }
 
 
-module.exports = {postCardData}
+module.exports = {getCardData,postCardData}
