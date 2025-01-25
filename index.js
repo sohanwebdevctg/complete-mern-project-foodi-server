@@ -11,13 +11,18 @@ app.use(express.json())
 
 
 // database connection
-const dataBaseLink = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.hoynchx.mongodb.net/foodiDB`
+const dataBaseLink = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.hoynchx.mongodb.net/foodiDB`;
 
 const dataBaseConnection = async () => {
   const db = await mongoose.connect(dataBaseLink);
   return db;
 }
 
+
+// all routes data here
+const menuRoutes = require('./api/routers/menuRouters')
+
+app.use('/menu', menuRoutes);
 
 
 
