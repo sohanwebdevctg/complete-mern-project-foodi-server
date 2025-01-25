@@ -21,8 +21,10 @@ const dataBaseConnection = async () => {
 
 // all routes data here
 const menuRoutes = require('./api/routers/menuRouters')
+const userRouter = require('./api/routers/userRouter')
 
 app.use('/menu', menuRoutes);
+app.use('/user', userRouter)
 
 
 
