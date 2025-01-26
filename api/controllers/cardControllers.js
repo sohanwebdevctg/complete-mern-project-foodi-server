@@ -1,5 +1,19 @@
 const Card = require("../models/Card");
 
+const getSingleCard = async (req, res) => {
+  try{
+    const id = req.params.id;
+    const singleCard = await Card.findById({_id : id});
+    if(!singleCard){
+      return res.status(401).json({message : 'card not found'})
+    }
+    return res.status(200).json({message : 'success'})
+    
+  }catch(error){
+    res.status(404).json({message: error.message})
+  }
+}
+
 const getCardData = async (req, res) => {
   try{
     const email = req.query.email;
@@ -31,11 +45,14 @@ const postCardData = async (req, res) => {
 
 const deleteCard = async (req, res) => {
   try{
+
     const id = req.params.id;
     const deleteCard = await Card.findByIdAndDelete({_id : id});
-    if(deleteCard){
-      return res.status(200).json({message : 'success'})
+    if(!deleteCard){
+      return res.status(401).json({message : 'card not found'})
     }
+    return res.status(200).json({message : 'success'})
+
   }catch(error){
     res.status(404).json({message: error.message})
   }
@@ -44,4 +61,4 @@ const deleteCard = async (req, res) => {
 }
 
 
-module.exports = {getCardData,postCardData,deleteCard}
+module.exports = {getCardData,getSingleCard,postCardData,deleteCard}
