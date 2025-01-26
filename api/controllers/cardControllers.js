@@ -29,5 +29,19 @@ const postCardData = async (req, res) => {
   }
 }
 
+const deleteCard = async (req, res) => {
+  try{
+    const id = req.params.id;
+    const deleteCard = await Card.findByIdAndDelete({_id : id});
+    if(deleteCard){
+      return res.status(200).json({message : 'success'})
+    }
+  }catch(error){
+    res.status(404).json({message: error.message})
+  }
+  
 
-module.exports = {getCardData,postCardData}
+}
+
+
+module.exports = {getCardData,postCardData,deleteCard}
