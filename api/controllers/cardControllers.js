@@ -43,6 +43,21 @@ const postCardData = async (req, res) => {
   }
 }
 
+const updateCard = async (req, res) => {
+  try{
+    const _id = req.params.id;
+    const {quantity} = req.body;
+    const updateData = await Card.findByIdAndUpdate(_id, {quantity: quantity}, {new : true, runValidators: true});
+    if(!updateData){
+      return res.status(401).json({message : 'card not found'})
+    }
+    return res.status(200).json({message : 'success'})
+
+  }catch(error){
+    res.status(404).json({message: error.message})
+  }
+}
+
 const deleteCard = async (req, res) => {
   try{
 
@@ -56,9 +71,7 @@ const deleteCard = async (req, res) => {
   }catch(error){
     res.status(404).json({message: error.message})
   }
-  
-
 }
 
 
-module.exports = {getCardData,getSingleCard,postCardData,deleteCard}
+module.exports = {getCardData,getSingleCard,updateCard,postCardData,deleteCard}
