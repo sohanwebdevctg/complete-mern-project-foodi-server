@@ -1,5 +1,6 @@
 const Card = require("../models/Card");
 
+// get single card data
 const getSingleCard = async (req, res) => {
   try{
     const id = req.params.id;
@@ -14,6 +15,7 @@ const getSingleCard = async (req, res) => {
   }
 }
 
+// get single user query card data by email
 const getCardData = async (req, res) => {
   try{
     const email = req.query.email;
@@ -27,6 +29,7 @@ const getCardData = async (req, res) => {
   }
 }
 
+// post single card data
 const postCardData = async (req, res) => {
   try{
     const {menuId, name, recipe, image, category, price, email, quantity} = req.body;
@@ -43,6 +46,7 @@ const postCardData = async (req, res) => {
   }
 }
 
+// patch single card data
 const updateCard = async (req, res) => {
   try{
     const _id = req.params.id;
@@ -52,12 +56,12 @@ const updateCard = async (req, res) => {
       return res.status(401).json({message : 'card not found'})
     }
     return res.status(200).json({message : 'success'})
-
   }catch(error){
     res.status(404).json({message: error.message})
   }
 }
 
+// delete single card data
 const deleteCard = async (req, res) => {
   try{
 
