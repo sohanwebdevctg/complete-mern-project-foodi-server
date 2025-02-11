@@ -9,6 +9,12 @@ const database = require('./api/db/connection') // database connect function
 app.use(cors())
 app.use(express.json())
 
+
+// router connection
+const userRouter = require('./api/routers/userRouter');
+
+app.use('/api/v1/user', userRouter)
+
 app.get('/', (req, res) => {
   res.send('This is Foodi-Server project')
 })
