@@ -51,7 +51,14 @@ const userLogin = async (req, res) => {
   }catch(error){
     res.status(500).json({message : error.message})
   }
-  
+}
+
+// user logout router data
+const logout = async (req, res) => {
+  res.clearCookie('token', {
+    httpOnly : true,
+    secure : false
+  }).send({message : 'logout successfully'})
 }
 
 module.exports = {userRegister, userLogin}
