@@ -1,6 +1,7 @@
 const User = require("../models/User");
-var bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+var bcrypt = require('bcryptjs'); // bcryptjs for password
+const jwt = require('jsonwebtoken'); // jwt token
+const cookieParser = require('cookie-parser') // cookie-parser
 
 // user register router data
 const userRegister = async (req, res) => {
@@ -38,11 +39,13 @@ const userLogin = async (req, res) => {
 
     const findUser = await User.findOne({email : email});
     const isMatch = await bcrypt.compareSync(password, findUser.password);
-
-    console.log(findUser)
     if(findUser && isMatch ){
+      // jwt token create
       const token = jwt.sign({ userId : findUser._id }, process.env.ACCESS_TOKEN, { expiresIn: '1h' });
-      
+      res.cookie('token', token, {
+        httpOnly : true,
+        secure : false
+      }).status(201).send({message : 'success login'})
     }
     
   }catch(error){

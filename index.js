@@ -5,10 +5,15 @@ const cors = require('cors') // cors configuration
 const port = process.env.PORT || 5000 //port is here
 const database = require('./api/db/connection') // database connect function
 const jwt = require('jsonwebtoken'); // jwt token
+const cookieParser = require('cookie-parser') // cookie-parser
 
 // middle ware
-app.use(cors())
+app.use(cors({
+  origin : ['http://localhost:5173'],
+  credentials : true
+}))
 app.use(express.json())
+app.use(cookieParser())
 
 
 // router connection
