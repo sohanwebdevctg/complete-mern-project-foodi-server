@@ -4,6 +4,7 @@ const app = express() // app instance
 const cors = require('cors') // cors configuration
 const port = process.env.PORT || 5000 //port is here
 const database = require('./api/db/connection') // database connect function
+const jwt = require('jsonwebtoken'); // jwt token
 
 // middle ware
 app.use(cors())
