@@ -3,6 +3,34 @@ var bcrypt = require('bcryptjs'); // bcryptjs for password
 const jwt = require('jsonwebtoken'); // jwt token
 const cookieParser = require('cookie-parser') // cookie-parser
 
+// get profile router data
+const profile = async (req, res) => {
+  const token = req.cookies.token;
+  
+  if(!token){
+    return res.status(401).json({message: 'unauthorized access'})
+  }
+
+  try{
+
+    const decoded = jwt.decode(token, process.env.ACCESS_TOKEN);
+    const user = await User.findOne({email : decoded?.email}).select('-password');
+    
+    if(!user){
+      return res.status(404).json({message : 'user not found'})
+    }
+    res.json({
+      name : user.name,
+      email : user.email,
+      image : user.image,
+      role : user.role
+    })
+
+  }catch(error){
+    return res.status(401).json({message : 'invalid token'})
+  }
+}
+
 // user register router data
 const userRegister = async (req, res) => {
 
@@ -41,7 +69,7 @@ const userLogin = async (req, res) => {
     const isMatch = await bcrypt.compareSync(password, findUser.password);
     if(findUser && isMatch ){
       // jwt token create
-      const token = jwt.sign({ userId : findUser._id }, process.env.ACCESS_TOKEN, { expiresIn: '1h' });
+      const token = jwt.sign({ email : findUser.email }, process.env.ACCESS_TOKEN, { expiresIn: '1h' });
       res.cookie('token', token, {
         httpOnly : true,
         secure : false
@@ -54,11 +82,11 @@ const userLogin = async (req, res) => {
 }
 
 // user logout router data
-const logout = async (req, res) => {
+const logOut = async (req, res) => {
   res.clearCookie('token', {
     httpOnly : true,
     secure : false
   }).send({message : 'logout successfully'})
 }
 
-module.exports = {userRegister, userLogin}
+module.exports = {profile, userRegister, userLogin, logOut}
