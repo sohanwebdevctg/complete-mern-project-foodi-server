@@ -67,16 +67,16 @@ const userLogin = async (req, res) => {
 
     const findUser = await User.findOne({email : email});
     const isMatch = await bcrypt.compareSync(password, findUser.password);
-    delete findUser._doc.password
+    delete findUser._doc.password;
+    
     if(findUser && isMatch ){
       // jwt token create
       const token = jwt.sign({ email : findUser.email }, process.env.ACCESS_TOKEN, { expiresIn: '1h' });
       res.cookie('token', token, {
         httpOnly : true,
-        secure : false
-      }).status(201).send(findUser)
+        secure : true
+      }).status(201).json({message : 'Login successfully'})
     }
-    
   }catch(error){
     res.status(500).json({message : error.message})
   }
