@@ -1,10 +1,13 @@
 const express = require('express')
 const router = express.Router();
-const {profile, userRegister, userLogin, logOut} = require('../controllers/userControllers');
+const {profile, allUsers, userRegister, userLogin, logOut} = require('../controllers/userControllers');
 const verifyToken = require('../middleware/verifyToken')
 
 // get profile router data
 router.get('/profile',verifyToken, profile)
+
+// get all users data
+router.get('/allUsers', allUsers);
 
 // user register router data
 router.post('/register', userRegister)

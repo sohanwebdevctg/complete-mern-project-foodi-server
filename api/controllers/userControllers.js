@@ -4,6 +4,7 @@ var bcrypt = require('bcryptjs'); // bcryptjs for password
 const jwt = require('jsonwebtoken'); // jwt token
 const cookieParser = require('cookie-parser') // cookie-parser
 
+
 // get profile router data
 const profile = async (req, res) => {
   
@@ -16,8 +17,8 @@ const profile = async (req, res) => {
 
   try{
     // get decoded middleware token
-    const decoded = req.decoded;
-    const user = await User.findOne({email : decoded?.email}).select('-password');
+    const email = req?.decoded?.email;
+    const user = await User.findOne({email : email}).select('-password');
     
     if(!user){
       return res.status(404).json({message : 'user not found'})
@@ -32,6 +33,11 @@ const profile = async (req, res) => {
   }catch(error){
     return res.status(401).json({message : 'invalid token'})
   }
+}
+
+// get all users data
+const allUsers = async (req, res) => {
+  console.log('all user');
 }
 
 // user register router data
@@ -97,4 +103,4 @@ const logOut = async (req, res) => {
   }).send({message : 'logout successfully'})
 }
 
-module.exports = {profile, userRegister, userLogin, logOut}
+module.exports = {profile, allUsers, userRegister, userLogin, logOut}
