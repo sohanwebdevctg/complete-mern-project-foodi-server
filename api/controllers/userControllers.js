@@ -1,3 +1,4 @@
+require('dotenv').config() // dotenv configuration
 const User = require("../models/User");
 var bcrypt = require('bcryptjs'); // bcryptjs for password
 const jwt = require('jsonwebtoken'); // jwt token
@@ -5,15 +6,17 @@ const cookieParser = require('cookie-parser') // cookie-parser
 
 // get profile router data
 const profile = async (req, res) => {
-  const token = req.cookies.token;
   
-  if(!token){
-    return res.status(401).json({message: 'unauthorized access'})
-  }
+  // const token = req.cookies.token;
+  
+  // if(!token){
+  //   return res.status(401).json({message: 'unauthorized access'})
+  // }
+  // const decoded = jwt.verify(token, process.env.ACCESS_TOKEN);
 
   try{
-
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN);
+    // get decoded middleware token
+    const decoded = req.decoded;
     const user = await User.findOne({email : decoded?.email}).select('-password');
     
     if(!user){
