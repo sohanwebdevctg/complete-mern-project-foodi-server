@@ -58,9 +58,7 @@ const allUsers = async (req, res) => {
     res.status(200).send(users);
 
   }catch(error){
-
-    res.status(500).json({message : error.message})
-
+  res.status(500).json({message : error.message})
   }
 
 }
@@ -120,6 +118,22 @@ const userLogin = async (req, res) => {
   }
 }
 
+// makeAdmin user data
+const makeAdmin = async (req, res) => {
+  try{
+    const _id = req.params.id;
+    const {role} = req.body;
+    const updateData = await User.findByIdAndUpdate({_id : _id}, {role : role}, {new : true, runValidators : true})
+    console.log(updateData)
+    if(!updateData){
+      return res.status(401).json({message : 'user not found'})
+    }
+    return res.status(200).json({message : 'make admin'})
+  }catch(error){
+    return res.status(401).json({message : 'invalid token'})
+  }
+}
+
 // delete single user data
 const deleteSingleUser = async (req, res) => {
   try{
@@ -142,4 +156,4 @@ const logOut = async (req, res) => {
   }).send({message : 'logout successfully'})
 }
 
-module.exports = {singleUser,profile, allUsers, userRegister, userLogin, deleteSingleUser, logOut}
+module.exports = {singleUser,profile, allUsers, userRegister, userLogin, makeAdmin, deleteSingleUser, logOut}
