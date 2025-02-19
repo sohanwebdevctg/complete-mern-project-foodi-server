@@ -120,6 +120,20 @@ const userLogin = async (req, res) => {
   }
 }
 
+// delete single user data
+const deleteSingleUser = async (req, res) => {
+  try{
+    const id = req.params.id;
+    const deleteSingleUser = await User.findByIdAndDelete({_id : id});
+    if(!deleteSingleUser){
+      return res.status(401).json({message : 'user not found'})
+    }
+    return res.status(200).json({message : 'success'})
+  }catch(error){
+    return res.status(401).json({message : 'invalid token'})
+  }
+}
+
 // user logout router data
 const logOut = async (req, res) => {
   res.clearCookie('token', {
@@ -128,4 +142,4 @@ const logOut = async (req, res) => {
   }).send({message : 'logout successfully'})
 }
 
-module.exports = {singleUser,profile, allUsers, userRegister, userLogin, logOut}
+module.exports = {singleUser,profile, allUsers, userRegister, userLogin, deleteSingleUser, logOut}

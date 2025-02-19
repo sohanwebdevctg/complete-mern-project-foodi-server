@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const {singleUser, profile, allUsers, userRegister, userLogin, logOut} = require('../controllers/userControllers');
+const {singleUser, profile, allUsers, userRegister, userLogin, deleteSingleUser, logOut} = require('../controllers/userControllers');
 const verifyToken = require('../middleware/verifyToken')
 
 // get single user data
@@ -17,6 +17,9 @@ router.post('/register', userRegister)
 
 // user login router data
 router.post('/login', userLogin)
+
+// delete single user data
+router.delete('/deleteSingleUser/admin/:id', deleteSingleUser)
 
 // user login router data
 router.post('/logOut', logOut)
