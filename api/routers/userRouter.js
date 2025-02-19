@@ -1,13 +1,16 @@
 const express = require('express')
 const router = express.Router();
-const {profile, allUsers, userRegister, userLogin, logOut} = require('../controllers/userControllers');
+const {singleUser, profile, allUsers, userRegister, userLogin, logOut} = require('../controllers/userControllers');
 const verifyToken = require('../middleware/verifyToken')
 
+// get single user data
+router.get('/singleUser/:id', verifyToken, singleUser)
+
 // get profile router data
-router.get('/profile',verifyToken, profile)
+router.get('/profile', verifyToken, profile)
 
 // get all users data
-router.get('/allUsers', allUsers);
+router.get('/allUsers/admin', verifyToken, allUsers);
 
 // user register router data
 router.post('/register', userRegister)

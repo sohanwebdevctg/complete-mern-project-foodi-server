@@ -5,6 +5,20 @@ const jwt = require('jsonwebtoken'); // jwt token
 const cookieParser = require('cookie-parser') // cookie-parser
 
 
+// get single user data
+const singleUser = async (req, res) => {
+  try{
+    const id = req.params.id;
+    const singleUser = await User.findById({_id : id});
+    if(!singleUser){
+      return res.status(200).json({message : 'user not found'})
+    }
+    return res.status(200).json({message : 'success'})
+  }catch(error){
+    return res.status(401).json({message : 'invalid token'})
+  }
+}
+
 // get profile router data
 const profile = async (req, res) => {
   
@@ -114,4 +128,4 @@ const logOut = async (req, res) => {
   }).send({message : 'logout successfully'})
 }
 
-module.exports = {profile, allUsers, userRegister, userLogin, logOut}
+module.exports = {singleUser,profile, allUsers, userRegister, userLogin, logOut}
