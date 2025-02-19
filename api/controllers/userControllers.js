@@ -37,7 +37,18 @@ const profile = async (req, res) => {
 
 // get all users data
 const allUsers = async (req, res) => {
-  console.log('all user');
+
+  try{
+    // get all users data
+    const users = await User.find({});
+    res.status(200).send(users);
+
+  }catch(error){
+
+    res.status(500).json({message : error.message})
+
+  }
+
 }
 
 // user register router data
